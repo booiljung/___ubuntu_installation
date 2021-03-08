@@ -1,0 +1,3 @@
+# android studio
+export PATH="$PATH":"/opt/android-studio/bin/"
+export PATH="$PATH":"$HOME/Android/Sdk/tools/bin"

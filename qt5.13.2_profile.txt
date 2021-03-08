@@ -1,0 +1,6 @@
+# qt5.13.2
+export PATH="$PATH":"$HOME/Qt5.13.2/5.13.2/gcc_64/bin"
+export PATH="$PATH":"$HOME/home/booil/Qt5.13.2/Tools/bin"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH"::"$HOME/Qt5.13.2/5.13.2/gcc_64/lib"
+export CPATH="$CPATH"::"$HOME/Qt5.13.2/5.13.2/gcc_64/include"
+

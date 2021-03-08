@@ -1,0 +1,1 @@
+UUID=0586998D1A860B43  /media/ntdata     ntfs-3g    rw,nosuid,nodev,noatime,allow_other	0       1

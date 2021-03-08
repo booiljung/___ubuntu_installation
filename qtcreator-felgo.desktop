@@ -1,0 +1,25 @@
+ [Desktop Entry]
+ Version=1.0
+ StartupNotify=false
+ Type=Application
+ NoDisplay=false
+ Terminal=false
+
+ Name=Felgo Qt Creator
+ Icon=%%%FELGODIR%%%/FelgoLive/assets/felgo-logo.png
+ Exec=bash -c '%%%FELGODIR%%%/Tools/QtCreator/bin/qtcreator.sh %F'
+ Keywords=qt;c++;cpp;qml;felgo;
+ Categories=Development;IDE;Qt;
+ TryExec=%%%FELGODIR%%%/Tools/QtCreator/bin/qtcreator.sh
+ Actions=maint;vpdocs;qtdocs;
+ StartupWMClass=qtcreator
+
+ [Desktop Action maint]
+ Name=MaintenanceTool
+ Exec=/mnt/store/Software/Portable/qt/felgo_linux64/MaintenanceTool
+ [Desktop Action vpdocs]
+ Name=-> Felgo Docs
+ Exec=xdg-open "https://felgo.com/doc/"
+ [Desktop Action qtdocs]
+ Name=-> Qt Docs
+ Exec=xdg-open "https://doc.qt.io/qt-5/index.html"

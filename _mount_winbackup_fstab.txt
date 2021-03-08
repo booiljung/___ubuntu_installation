@@ -1,0 +1,1 @@
+UUID=BA881ECA881E84D3  /media/winbackup     ntfs-3g    rw,nosuid,nodev,noatime,allow_other	0       1

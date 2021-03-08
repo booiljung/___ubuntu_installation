@@ -1,0 +1,2 @@
+UUID=01cf86a9-f1f5-4810-887d-4aa60fe8f210   /media/sdd500g  ext4    defaults    0   0
+UUID=566CF6C76CF6A0C3  /media/hdd2t     ntfs-3g    rw,nosuid,nodev,noatime,allow_other	0       1
