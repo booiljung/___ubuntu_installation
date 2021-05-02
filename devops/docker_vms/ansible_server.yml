@@ -1,0 +1,12 @@
+---
+- name: Setup for the Ansible's Environment
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Add "/etc/ansible/hosts"
+      blockinfile:
+      path: /etc/ansible/hosts
+      block: |
+        [nodes]
+        192.168.0.[110:102]
