@@ -1,0 +1,18 @@
+curl -O https://releases.hashicorp.com/vagrant/2.2.15/vagrant_2.2.15_x86_64.deb
+sudo apt install ./vagrant_2.2.9_x86_64.deb
+
+# https://gist.github.com/yuanying/924ce2ce61b75ab818b5
+sudo apt-get install libxslt-dev libxml2-dev libvirt-dev qemu-utils
+sudo vagrant plugin install vagrant-kvm
+sudo vagrant plugin install vagrant-libvirt
+sudo vagrant plugin install vagrant-mutate
+
+vagrant mutate ubuntu/focal64 libvirt
+vagrant mutate ubuntu/focal64 kvm
+
+# kvm list vms
+virsh list
+virsh list --all
+virsh list [options]
+
+
