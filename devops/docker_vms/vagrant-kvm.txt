@@ -14,5 +14,3 @@ vagrant mutate ubuntu/focal64 kvm
 virsh list
 virsh list --all
 virsh list [options]
-
-

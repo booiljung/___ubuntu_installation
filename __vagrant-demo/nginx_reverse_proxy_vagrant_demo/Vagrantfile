@@ -1,0 +1,86 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+unless Vagrant.has_plugin?("vagrant-disksize")
+  raise  Vagrant::Errors::VagrantError.new,
+      "vagrant-disksize plugin is missing. Please install it using 'vagrant plugin install vagrant-disksize' and rerun 'vagrant up'"
+end
+  
+unless Vagrant.has_plugin?("vagrant-vbguest")
+  raise  Vagrant::Errors::VagrantError.new,
+      "vagrant-vbguest plugin is missing. Please install it using 'vagrant plugin install vagrant-vbguest' and rerun 'vagrant up'"
+end
+  
+Vagrant.configure("2") do |config|
+  config.vm.provider "virtualbox" do |vbox|
+    vbox.gui = false
+    vbox.memory = "2048"
+  end
+  config.vm.define "booil111" do |booil111|
+    booil111.vm.box = "peru/ubuntu-20.04-server-amd64"
+    booil111.vm.box_check_update = false
+    booil111.vm.hostname = "booil111"
+    booil111.vm.network "forwarded_port", guest: 80, host: 8081
+    booil111.vm.network "forwarded_port", guest: 80, host: 8081, host_ip: "127.0.0.1"
+    booil111.vm.network "private_network", ip: "192.168.33.111"
+    booil111.vm.network "public_network", bridge:"eth0", ip: "192.168.0.111"
+    booil111.vm.synced_folder "./booil111", "/vagrant_data"
+    booil111.vm.provision "shell", inline: <<-SHELL
+      apt update
+      apt upgrade
+      apt install -y build-essential
+      apt install -y net-tools
+      apt install -y nginx
+    SHELL
+    booil111.vm.provision "shell", inline: <<-SHELL
+      cp /vagrant_data/etc/nginx/sites-available/booil112.sm /etc/nginx/sites-available/
+      ln -s /etc/nginx/sites-available/booil112.sm /etc/nginx/sites-enabled/
+      cp /vagrant_data/etc/nginx/sites-available/booil113.sm /etc/nginx/sites-available/
+      ln -s /etc/nginx/sites-available/booil113.sm /etc/nginx/sites-enabled/
+      cp /vagrant_data/var/www/html/index.html /var/www/html/
+      /etc/init.d/nginx restart
+    SHELL
+  end # booil111
+  config.vm.define "booil112" do |booil112|
+    booil112.vm.box = "peru/ubuntu-20.04-server-amd64"
+    booil112.vm.box_check_update = false
+    booil112.vm.hostname = "booil112"
+    booil112.vm.network "forwarded_port", guest: 80, host: 8082
+    booil112.vm.network "forwarded_port", guest: 80, host: 8082, host_ip: "127.0.0.1"
+    booil112.vm.network "private_network", ip: "192.168.33.112"
+    booil112.vm.network "public_network", bridge:"eth0", ip: "192.168.0.112"
+    booil112.vm.synced_folder "./booil112", "/vagrant_data"
+    booil112.vm.provision "shell", inline: <<-SHELL
+      apt update
+      apt upgrade
+      apt install -y build-essential
+      apt install -y net-tools
+      apt install -y nginx
+    SHELL
+    booil112.vm.provision "shell", inline: <<-SHELL
+      cp /vagrant_data/var/www/html/index.html /var/www/html/      
+      /etc/init.d/nginx restart
+    SHELL
+  end # booil112
+  config.vm.define "booil113" do |booil113|
+    booil113.vm.box = "peru/ubuntu-20.04-server-amd64"
+    booil113.vm.box_check_update = false
+    booil113.vm.hostname = "booil113"
+    booil113.vm.network "forwarded_port", guest: 80, host: 8083
+    booil113.vm.network "forwarded_port", guest: 80, host: 8083, host_ip: "127.0.0.1"
+    booil113.vm.network "private_network", ip: "192.168.33.113"
+    booil113.vm.network "public_network", bridge:"eth0", ip: "192.168.0.113"
+    booil113.vm.synced_folder "./booil113", "/vagrant_data"
+    booil113.vm.provision "shell", inline: <<-SHELL
+      apt update
+      apt upgrade
+      apt install -y build-essential
+      apt install -y net-tools
+      apt install -y nginx
+    SHELL
+    booil113.vm.provision "shell", inline: <<-SHELL
+      cp /vagrant_data/var/www/html/index.html /var/www/html/
+      /etc/init.d/nginx restart
+    SHELL
+  end # booil113
+end
