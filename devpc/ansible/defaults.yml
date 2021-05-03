@@ -1,0 +1,9 @@
+---
+- name: Playbook to default installation
+  hosts: localhost
+  become: true
+  tasks:
+    - name: curl
+      apt:
+        name: curl
+        state: present
