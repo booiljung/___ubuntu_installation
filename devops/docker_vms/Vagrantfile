@@ -1,7 +1,7 @@
 nodes = [
-  { :hostname => 's110', :memory => 1024, :private_ip => '192.168.1.110', :public_ip => '192.168.0.110', :forwarded_port_22 => 2210, :forwarded_port_80 => 8010, :box => 'ubuntu/focal64' },
-  { :hostname => 'n111', :memory => 1024, :private_ip => '192.168.1.111', :public_ip => '192.168.0.111', :forwarded_port_22 => 2211, :forwarded_port_80 => 8011, :box => 'ubuntu/focal64' },
-  { :hostname => 'n112', :memory => 1024, :private_ip => '192.168.1.112', :public_ip => '192.168.0.112', :forwarded_port_22 => 2212, :forwarded_port_80 => 8012, :box => 'ubuntu/focal64' },
+  { :hostname => 's100', :memory => 1024, :private_ip => '192.168.1.100', :public_ip => '192.168.0.100', :forwarded_port_22 => 10100, :forwarded_port_80 => 11100, :box => 'ubuntu/focal64' },
+  { :hostname => 'n101', :memory => 1024, :private_ip => '192.168.1.101', :public_ip => '192.168.0.101', :forwarded_port_22 => 10101, :forwarded_port_80 => 11101, :box => 'ubuntu/focal64' },
+  { :hostname => 'n102', :memory => 1024, :private_ip => '192.168.1.102', :public_ip => '192.168.0.102', :forwarded_port_22 => 10102, :forwarded_port_80 => 11102, :box => 'ubuntu/focal64' },
 ]
 
 Vagrant.configure("2") do |config|
@@ -17,12 +17,14 @@ Vagrant.configure("2") do |config|
 				provider.gui = false
 				provider.customize [
 					"modifyvm", :id,
-					"--cpuexecutioncap", "50"
+					"--cpuexecutioncap", "50",
+					#"--nic1", "bridged",
+					#"--bridgeadapter1", "eno1"
 				]
 			end # provider
-			nodeconfig.vm.hostname = node[:hostname]
-			nodeconfig.vm.network "public_network", ip: node[:public_ip], bridge: "eno1"
-			nodeconfig.vm.network "private_network", ip: node[:private_ip]
+			nodeconfig.vm.hostname = node[:hostname]			
+			nodeconfig.vm.network "public_network", ip: node[:public_ip], autoconfig: true, bridge: "eno1"
+			nodeconfig.vm.network "private_network", ip: node[:private_ip], type: "dhcp"
 			nodeconfig.vm.network "forwarded_port", guest: 22, host: node[:forwarded_port_22]
 			nodeconfig.vm.network "forwarded_port", guest: 80, host: node[:forwarded_port_80]
 		end
