@@ -1,0 +1,11 @@
+---
+- name: Setup host for virtualbox host computer
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Install git
+      apt:
+        name: git
+        state: present
+    

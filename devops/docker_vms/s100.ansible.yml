@@ -1,0 +1,4 @@
+---
+- name: Setup for the Ansible's Environment
+  hosts: localhost
+  gather_facts: no
