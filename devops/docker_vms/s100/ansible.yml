@@ -1,0 +1,31 @@
+---
+- name: Setup for the Ansible's Environment
+  hosts: localhost
+  gather_facts: no
+  
+  tasks:
+    - name: copy reverse proxy file booil112
+      become: true
+      copy:
+        src: ./s100/etc/nginx/site-available/booil112.sm
+        dest: /etc/nginx/site-available/booil112.sm
+    - name: link reverse proxy file booil112
+      file:
+        src: /etc/nginx/site-available/booil112.sm
+        dest: /etc/nginx/site-enabled/booil112.sm
+        state: link
+    - name: copy reverse proxy file booil113
+      become: true
+      copy:
+        src: ./s100/etc/nginx/site-available/booil113.sm
+        dest: /etc/nginx/site-available/booil113.sm
+    - name: link reverse proxy file booil113
+      file:
+        src: /etc/nginx/site-available/booil113.sm
+        dest: /etc/nginx/site-enabled/booil113.sm
+        state: link
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+      

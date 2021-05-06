@@ -1,42 +1,9 @@
 box = 'ubuntu/focal64'
 
 nodes = [
-	{
-		:role => 'node',
-		:box => box,
-		:hostname => 'n101',
-		:memory => 1024,
-		:private_ip => '192.168.1.101',
-		:public_ip => '192.168.0.101',
-		:forwarded_22 => 10101,
-		:forwarded_80 => 11101,
-		:script => 'nxxx.sh',
-		:ansible_yml => 'nxxx.ansible.yml'
-	},
-	{
-		:role => 'node',
-		:box => box,
-		:hostname => 'n102',
-		:memory => 1024,
-		:private_ip => '192.168.1.102',
-		:public_ip => '192.168.0.102',
-		:forwarded_22 => 10102,
-		:forwarded_80 => 11102,
-		:script => 'nxxx.sh',
-		:ansible_yml => 'nxxx.ansible.yml'
-	},
-	{
-		:role => 'server',
-		:box => box,
-		:hostname => 's100',
-		:memory => 1024,
-		:private_ip => '192.168.1.100',
-		:public_ip => '192.168.0.100',
-		:forwarded_22 => 10100,
-		:forwarded_80 => 11100,
-		:script => 's100.sh',
-		:ansible_yml => 's100.ansible.yml'
-	},
+	{ :role => 'node',   :box => box, :hostname => 'n112', :memory => 1024, :private_ip => '192.168.1.112', :public_ip => '192.168.0.112', :forwarded_22 => 10101, :forwarded_80 => 11101, :script => 'nxxx/script.sh', :ansible => './nxxx/ansible.yml' },
+	{ :role => 'node',   :box => box, :hostname => 'n113', :memory => 1024, :private_ip => '192.168.1.113', :public_ip => '192.168.0.113', :forwarded_22 => 10102, :forwarded_80 => 11102, :script => 'nxxx/script.sh', :ansible => './nxxx/ansible.yml' },
+	{ :role => 'server', :box => box, :hostname => 's111', :memory => 1024, :private_ip => '192.168.1.111', :public_ip => '192.168.0.111', :forwarded_22 => 10100, :forwarded_80 => 11100, :script => 's100/script.sh', :ansible => './s100/ansible.yml' },
 ]
 
 Vagrant.configure("2") do |config|
@@ -52,21 +19,21 @@ Vagrant.configure("2") do |config|
 				provider.gui = false
 				provider.customize [
 					"modifyvm", :id,
-					"--cpuexecutioncap", "50",
-					#"--nic1", "bridged",
-					#"--bridgeadapter1", "eno1"
+					"--cpuexecutioncap", "50"
 				]
 			end
 			nodeconfig.vm.hostname = node[:hostname]			
-			nodeconfig.vm.network "public_network", ip: node[:public_ip], autoconfig: true, bridge: "eno1"
+			#nodeconfig.vm.network "public_network", ip: node[:public_ip], autoconfig: true, bridge: "eno1"
+			nodeconfig.vm.network "public_network", ip: node[:public_ip], autoconfig: true, bridge: "enp0s31f6"
 			nodeconfig.vm.network "private_network", ip: node[:private_ip], type: "dhcp"
-			nodeconfig.vm.network "forwarded_port", guest: 22, host: node[:forwarded_22], auto_correct: true, id: "ssh"
-			nodeconfig.vm.network "forwarded_port", guest: 80, host: node[:forwarded_80]
+			nodeconfig.vm.network "forwarded_port", id: "ssh", guest: 22, host: node[:forwarded_22], auto_correct: true
+			nodeconfig.vm.network "forwarded_port", id: "http", guest: 80, host: node[:forwarded_80]
 			# for Unixlike
 			nodeconfig.vm.provision "shell", path: node[:script]
 			nodeconfig.vm.provision "ansible" do |ansible|
-				ansible.playbook = node[:ansible_yml]
+				ansible.playbook = node[:ansible]
 			end
 		end
 	end
 end
+
