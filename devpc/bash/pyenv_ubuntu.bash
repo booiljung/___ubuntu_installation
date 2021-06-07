@@ -58,7 +58,7 @@ git clone https://github.com/kennethreitz/autoenv.git ~/.autoenv
 echo '' >> ~/.bash_profile
 echo '# autoenv' >> ~/.bash_profile
 echo '' >> ~/.bash_profile
-echo 'source ~/.autoenv/activate.sh' >> ~/.bashrc
+echo 'source ~/.autoenv/activate.sh' >> ~/.bash_profile
 source ~/.bash_profile
 
 echo '' >> ~/.bashrc

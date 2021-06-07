@@ -8,7 +8,7 @@ sudo hwclock -w --localtime
 sudo sed -i 's/kr.archive.ubuntu.com/mirror.kakao.com/g' /etc/apt/sources.list
 
 sudo apt update -y
-sudo apt upgrade -y
+sudo apt dist-upgrade -y
 
 echo "alias cd~='cd ~'" >> ~/.bashrc
 alias cd~='cd ~'
