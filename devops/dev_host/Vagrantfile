@@ -1,0 +1,36 @@
+box = 'ubuntu/focal64'
+
+nodes = [
+	{ :role => 'node',   :box => box, :hostname => 'n112', :memory => 4096, :private_ip => '192.168.1.100', :public_ip => '192.168.0.100', :forwarded_22 => 10000, :forwarded_80 => 10080, :script => '.script.sh', :ansible => '.ansible.yml' },
+]
+
+Vagrant.configure("2") do |config|
+	nodes.each do |node|
+		config.vm.define node[:hostname] do |nodeconfig|
+			nodeconfig.vm.box = node[:box]
+			# for virtualbox provider
+			nodeconfig.vm.provider "virtualbox" do |provider, override|								
+				provider.memory = node[:memory]
+				provider.cpus = 1
+				# for virtualbox
+				provider.name = node[:hostname]
+				provider.gui = false
+				provider.customize [
+					"modifyvm", :id,
+					"--cpuexecutioncap", "50"
+				]
+			end
+			nodeconfig.vm.hostname = node[:hostname]			
+			nodeconfig.vm.network "public_network", ip: node[:public_ip], autoconfig: true, bridge: "eno1"
+			nodeconfig.vm.network "private_network", ip: node[:private_ip], type: "dhcp"
+			nodeconfig.vm.network "forwarded_port", id: "ssh", guest: 22, host: node[:forwarded_22], auto_correct: true
+			nodeconfig.vm.network "forwarded_port", id: "http", guest: 80, host: node[:forwarded_80]
+			# for *nix
+			nodeconfig.vm.provision "shell", path: node[:script]
+			nodeconfig.vm.provision "ansible" do |ansible|
+				ansible.playbook = node[:ansible]
+			end
+		end
+	end
+end
+

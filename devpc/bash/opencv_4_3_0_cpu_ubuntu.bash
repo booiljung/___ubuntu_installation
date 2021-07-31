@@ -30,7 +30,7 @@ cd ~/linspace/opensource/opencv.github
 git clone --recursive https://github.com/opencv/opencv.git
 if [ "$?" != "0" ]; then
 	echo "Cannot clone opencv" 1>&2
-    popd
+	popd
 	exit 1
 fi
 cd opencv
